@@ -1,12 +1,12 @@
 import gettext
 from collections import OrderedDict
-from .settings_handler import get
+from .settings_handler import get,appName
 
 def init_translation():
 	try:
-		translation=gettext.translation("chatgpt", localedir='data/languages', languages=[get("g","lang")])
+		translation=gettext.translation(appName, localedir='data/languages', languages=[get("g","lang")])
 	except:
-		translation=gettext.translation("chatgppt", fallback=True)
+		translation=gettext.translation(appName, fallback=True)
 	translation.install()
 def lang():
 	supported_languages = OrderedDict({
