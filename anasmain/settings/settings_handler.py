@@ -1,6 +1,6 @@
 from configparser import ConfigParser
 import os
-appName=""
+appName="anas-main"
 cpath=os.path.join(os.getenv('appdata'),appName,"settings.ini")
 if not os.path.exists(os.path.join(os.getenv('appdata'),appName)):
 	os.mkdir(os.path.join(os.getenv('appdata'),appName))
@@ -9,6 +9,9 @@ if not os.path.exists(cpath):
 	config.add_section("g")
 	config["g"]["lang"] = "en"
 	config["g"]["exitDialog"] = "True"
+	config.add_section("update")
+	config["update"]["autoCheck"]="True"
+	config["update"]["beta"]="False"
 	with open(cpath, "w",encoding="utf-8") as file:
 		config.write(file)
 

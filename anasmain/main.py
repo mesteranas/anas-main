@@ -1,6 +1,7 @@
 import sys
 from custome_errors import *
 sys.excepthook = my_excepthook
+import update
 import gui
 import guiTools
 from settings import *
@@ -43,6 +44,9 @@ class main (qt.QMainWindow):
         Github_project=qt1.QAction(_("visite project on Github"),self)
         help.addAction(Github_project)
         Github_project.triggered.connect(lambda:guiTools.OpenLink(self,"https://Github.com/mesteranas/{}_GUI".format(settings_handler.appName)))
+        Checkupdate=qt1.QAction(_("check for update"),self)
+        help.addAction(Checkupdate)
+        Checkupdate.triggered.connect(lambda:update.check(self))
         donate=qt1.QAction(_("donate"),self)
         help.addAction(donate)
         donate.triggered.connect(lambda:guiTools.OpenLink(self,"https://www.paypal.me/AMohammed231"))
@@ -50,6 +54,8 @@ class main (qt.QMainWindow):
         help.addAction(about)
         about.triggered.connect(lambda:qt.QMessageBox.information(self,_("about"),_("{} version: {} description: {} developer: {}").format(app.name,str(app.version),app.description,app.creater)))
         self.setMenuBar(mb)
+        if settings_handler.get("update","autoCheck")=="True":
+            update.check(self,message=False)
     def closeEvent(self, event):
         if settings_handler.get("g","exitDialog")=="True":
             m=guiTools.ExitApp(self)

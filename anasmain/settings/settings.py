@@ -1,4 +1,4 @@
-import guiTools
+import guiTools,update
 import sys
 import os
 from . import settings_handler
@@ -25,6 +25,16 @@ class settings (qt.QDialog):
             self.language.setCurrentIndex(0)
         self.ExitDialog=qt.QCheckBox(_("Show exit dialog when exiting the program"))
         self.ExitDialog.setChecked(self.cbts(settings_handler.get("g","exitDialog")))
+        UpdateLayout=qt.QVBoxLayout()
+        self.update_autoDect=qt.QCheckBox(_("Automatically check for update when program start"))
+        self.update_autoDect.setChecked(self.cbts(settings_handler.get("update","autoCheck")))
+        UpdateLayout.addWidget(self.update_autoDect)
+        self.update_beta=qt.QCheckBox(_("download beta updates"))
+        self.update_beta.setChecked(self.cbts(settings_handler.get("update","beta")))
+        UpdateLayout.addWidget(self.update_beta)
+        self.update_check=qt.QPushButton(_("check for update"))
+        self.update_check.clicked.connect(lambda:update.check(self))
+        UpdateLayout.addWidget(self.update_check)
         self.ok=qt.QPushButton(_("OK"))
         self.ok.clicked.connect(self.fok)
         self.defolt=qt.QPushButton(_("default"))
@@ -36,6 +46,7 @@ class settings (qt.QDialog):
         layout1.addWidget(self.language)
         layout1.addWidget(self.ExitDialog)
         self.sectian.add(_("general"),layout1)
+        self.sectian.add(_("update"),UpdateLayout)
         layout.addWidget(self.ok)
         layout.addWidget(self.defolt)
         layout.addWidget(self.cancel)
@@ -46,6 +57,8 @@ class settings (qt.QDialog):
             aa=1
         settings_handler.set("g","lang",str(language.lang()[self.language.currentText()]))
         settings_handler.set("g","exitDialog",str(self.ExitDialog.isChecked()))
+        settings_handler.set("update","autoCheck",str(self.update_autoDect.isChecked()))
+        settings_handler.set("update","beta",str(self.update_beta.isChecked()))
         if aa==1:
             mb=qt.QMessageBox(self)
             mb.setWindowTitle(_("settings updated"))
