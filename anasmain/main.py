@@ -43,7 +43,7 @@ class main (qt.QMainWindow):
         email.triggered.connect(lambda: guiTools.sendEmail("anasformohammed@gmail.com","project_type=GUI app={} version={}".format(app.name,app.version),""))
         Github_project=qt1.QAction(_("visite project on Github"),self)
         help.addAction(Github_project)
-        Github_project.triggered.connect(lambda:guiTools.OpenLink(self,"https://Github.com/mesteranas/{}_GUI".format(settings_handler.appName)))
+        Github_project.triggered.connect(lambda:guiTools.OpenLink(self,"https://Github.com/mesteranas/{}".format(settings_handler.appName)))
         Checkupdate=qt1.QAction(_("check for update"),self)
         help.addAction(Checkupdate)
         Checkupdate.triggered.connect(lambda:update.check(self))
