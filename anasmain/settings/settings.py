@@ -2,7 +2,7 @@ import guiTools,update
 import zipfile
 import sys
 import os,shutil
-from . import settings_handler
+from . import settings_handler,app
 from . import language
 import PyQt6.QtWidgets as qt
 import sys
@@ -89,7 +89,7 @@ class settings (qt.QDialog):
         mb.exec()
         ex=mb.clickedButton()
         if ex==rn:
-            os.remove(settings_handler.cpath)
+            shutil.rmtree(os.path.join(os.getenv('appdata'),app.appName))
             os.execl(sys.executable, sys.executable, *sys.argv)
 
     def fcancel(self):

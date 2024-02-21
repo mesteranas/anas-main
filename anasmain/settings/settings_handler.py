@@ -1,6 +1,7 @@
 from configparser import ConfigParser
 import os
-appName="anas-main"
+from . import app
+appName=app.appName
 cpath=os.path.join(os.getenv('appdata'),appName,"settings.ini")
 if not os.path.exists(os.path.join(os.getenv('appdata'),appName)):
 	os.mkdir(os.path.join(os.getenv('appdata'),appName))

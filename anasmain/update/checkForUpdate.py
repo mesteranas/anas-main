@@ -4,9 +4,10 @@ import requests
 import PyQt6.QtWidgets as qt
 import PyQt6.QtGui as qt1
 import PyQt6.QtCore as qt2
+from settings.app import appdirname
 def check (p,message=True):
     try:
-        r=requests.get("https://raw.githubusercontent.com/mesteranas/{}/main/anasmain/update/app.json".format(settings.settings_handler.appName))
+        r=requests.get("https://raw.githubusercontent.com/mesteranas/{}/main/{}/update/app.json".format(settings.settings_handler.appName,appdirname))
         info=r.json()
         if info["version"]>settings.app.version:
             if info["is_beta"] and settings.settings_handler.get("update","beta")=="False":
