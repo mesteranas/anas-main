@@ -15,10 +15,8 @@ class listBook(qt.QListWidget):
         self.currentRowChanged.connect(self.changeI)
         qt1.QShortcut("ctrl+tab",self).activated.connect(self.Nexttab)
         qt1.QShortcut("ctrl+shift+tab",self).activated.connect(self.previousTab)
-    def add(self,text,tabLayout):
-        w=qt.QWidget()
-        w.setLayout(tabLayout)
-        self.w.addWidget(w)
+    def add(self,text,tabWidget):
+        self.w.addWidget(tabWidget)
         self.addItem(text)
     def changeI(self,index):
         self.w.setCurrentIndex(index)
