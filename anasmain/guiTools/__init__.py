@@ -5,3 +5,5 @@ from . import dictionarys
 from .exitApp import ExitApp
 from .speak import speak
 from .email import sendEmail
+from .textViewer import TextViewer
+from .send_notification import SendNotification
