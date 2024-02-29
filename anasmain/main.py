@@ -71,4 +71,5 @@ class main (qt.QMainWindow):
 App=qt.QApplication([])
 w=main()
 w.show()
+App.setStyle('fusion')
 App.exec()
