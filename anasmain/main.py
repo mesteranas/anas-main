@@ -25,6 +25,10 @@ class main (qt.QMainWindow):
 
         mb=self.menuBar()
         help=mb.addMenu(_("help"))
+        helpFile=qt1.QAction(_("help file"),self)
+        help.addAction(helpFile)
+        helpFile.triggered.connect(lambda:guiTools.HelpFile())
+        helpFile.setShortcut("f1")
         cus=help.addMenu(_("contact us"))
         telegram=qt1.QAction("telegram",self)
         cus.addAction(telegram)
