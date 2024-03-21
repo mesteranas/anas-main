@@ -7,3 +7,4 @@ from .speak import speak
 from .email import sendEmail
 from .textViewer import TextViewer
 from .helpFile import HelpFile
+from .send_notification import SendNotification
