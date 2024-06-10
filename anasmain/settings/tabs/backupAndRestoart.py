@@ -13,10 +13,10 @@ class Restoar(qt.QWidget):
     def __init__(self,p):
         super().__init__()
         layout=qt.QVBoxLayout(self)
-        self.createCopy=qt.QPushButton(_("backup"))
+        self.createCopy=guiTools.QPushButton(_("backup"))
         layout.addWidget(self.createCopy)
         self.createCopy.clicked.connect(self.onbackup)
-        self.restoar=qt.QPushButton(_("restoar"))
+        self.restoar=guiTools.QPushButton(_("restore"))
         layout.addWidget(self.restoar)
         self.restoar.clicked.connect(self.onrestoar)
         self.p=p

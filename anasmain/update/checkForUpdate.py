@@ -1,4 +1,4 @@
-import settings
+import settings,guiTools
 from .updater import DownloadUpdateGUI
 import requests
 import PyQt6.QtWidgets as qt
@@ -23,14 +23,14 @@ class download (qt.QDialog):
         super().__init__(p)
         layout=qt.QVBoxLayout(self)
         self.setWindowTitle(_("new {} version {}").format(settings.app.name,str(version)))
-        whatsn=qt.QLineEdit()
-        whatsn.setReadOnly(True)
+        whatsn=guiTools.QReadOnlyTextEdit()
         whatsn.setAccessibleName(_("what's new"))
         whatsn.setText(whatsNew)
         self.URL=URL
-        self.download=qt.QPushButton(_("download"))
+        self.download=guiTools.QPushButton(_("download"))
+        self.download.setDefault(True)
         self.download.clicked.connect(lambda:DownloadUpdateGUI(self,URL).exec())
-        self.Close=qt.QPushButton(_("close"))
+        self.Close=guiTools.QPushButton(_("close"))
         self.Close.clicked.connect(lambda:self.close())
         layout.addWidget(whatsn)
         layout.addWidget(self.download)

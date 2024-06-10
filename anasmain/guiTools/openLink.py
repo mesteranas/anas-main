@@ -1,3 +1,4 @@
+import guiTools
 import pyperclip
 import webbrowser
 import PyQt6.QtWidgets as qt
@@ -10,13 +11,13 @@ class openLink (qt.QDialog):
         super().__init__(p)
         self.setWindowTitle(_("Open link dialog"))
         label=qt.QLabel(_("link"))
-        self.link=qt.QLineEdit()
-        self.link.setReadOnly(True)
+        self.link=guiTools.QReadOnlyTextEdit()
         self.link.setText(link)
         self.link.setAccessibleName(_("link"))
-        self.open=qt.QPushButton(_("open link "))
+        self.open=guiTools.QPushButton(_("open link "))
+        self.open.setDefault(True)
         self.open.clicked.connect(self.fopen)
-        self.copy=qt.QPushButton(_("copy link"))
+        self.copy=guiTools.QPushButton(_("copy link"))
         self.copy.clicked.connect(self.fcopy)
         layout=qt.QVBoxLayout()
         layout.addWidget(label)
@@ -25,10 +26,10 @@ class openLink (qt.QDialog):
         layout.addWidget(self.copy)
         self.setLayout(layout)
     def fopen(self):
-        webbrowser.open(self.link.text())
+        webbrowser.open(self.link.toPlainText())
         self.close()
     def fcopy(self):
-        pyperclip.copy(self.link.text())
+        pyperclip.copy(self.link.toPlainText())
         self.close()
 def OpenLink (p,Link):
 	openLink (p,Link).exec()

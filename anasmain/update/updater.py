@@ -1,3 +1,4 @@
+import settings,guiTools
 import requests
 import sys
 import subprocess
@@ -15,7 +16,7 @@ class DownloadUpdateThread(qt2.QRunnable):
         super().__init__()
         self.URL=URL
         self.object=DownloadUpdateObjects()
-        self.path="data/update"
+        self.path=os.path.join(os.getenv('appdata'),settings.settings_handler.appName,"update")
         self.downloading=True
         self.object.download.connect(self.is_download)
     def is_download(self,value):
@@ -68,7 +69,7 @@ class DownloadUpdateGUI (qt.QDialog):
         self.downloading.setAccessibleName(_("download state"))
         self.downloading.setValue(0)
         layout.addWidget(self.downloading)
-        self.cancel=qt.QPushButton(_("cancel"))
+        self.cancel=guiTools.QPushButton(_("cancel"))
         layout.addWidget(self.cancel)
         self.thread=qt2.QThreadPool(self)
         self.run=DownloadUpdateThread(URL)

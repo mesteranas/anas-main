@@ -15,8 +15,7 @@ class main (qt.QMainWindow):
         self.setWindowTitle(app.name + _("version : ") + str(app.version))
         layout=qt.QVBoxLayout()
         
-        self.setting=qt.QPushButton(_("settings"))
-        self.setting.setDefault(True)
+        self.setting=guiTools.QPushButton(_("settings"))
         self.setting.clicked.connect(lambda: settings(self).exec())
         layout.addWidget(self.setting)
         w=qt.QWidget()

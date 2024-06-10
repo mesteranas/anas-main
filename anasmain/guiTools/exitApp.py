@@ -1,3 +1,4 @@
+from . import QPushButton
 import os,sys
 import PyQt6.QtWidgets as qt
 import PyQt6.QtGui as qt1
@@ -14,9 +15,10 @@ class ExitApp (qt.QDialog):
         self.exit=qt.QComboBox()
         self.exit.setAccessibleName(lec)
         self.exit.addItems([_("exit"),_("restart")])
-        self.ok=qt.QPushButton(_("OK"))
+        self.ok=QPushButton.QPushButton(_("OK"))
+        self.ok.setDefault(True)
         self.ok.clicked.connect(self.fok)
-        self.cancel=qt.QPushButton(_("cancel"))
+        self.cancel=QPushButton.QPushButton(_("cancel"))
         self.cancel.clicked.connect(self.fcan)
         layout=qt.QVBoxLayout()
         layout.addWidget(label)
