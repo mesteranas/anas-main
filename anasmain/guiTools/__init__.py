@@ -1,7 +1,7 @@
 from .comboBook import comboBook
 from .listBook import listBook
 from .openLink import OpenLink
-from . import dictionarys
+from . import dictionarys,clikboard
 from .exitApp import ExitApp
 from .speak import speak
 from .email import sendEmail
@@ -10,3 +10,4 @@ from .helpFile import HelpFile
 from .send_notification import SendNotification
 from .QPushButton import QPushButton
 from .QReadOnlyTextEdit import QReadOnlyTextEdit
+from .playSound import playSoundEffect

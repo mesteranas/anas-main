@@ -1,9 +1,8 @@
 import guiTools
-import pyperclip
-import webbrowser
 import PyQt6.QtWidgets as qt
 import PyQt6.QtGui as qt1
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import QUrl
+import guiTools.clikboard
 from settings import *
 language.init_translation()
 class openLink (qt.QDialog):
@@ -26,10 +25,10 @@ class openLink (qt.QDialog):
         layout.addWidget(self.copy)
         self.setLayout(layout)
     def fopen(self):
-        webbrowser.open(self.link.toPlainText())
+        qt1.QDesktopServices.openUrl(QUrl(self.link.toPlainText()))
         self.close()
     def fcopy(self):
-        pyperclip.copy(self.link.toPlainText())
+        guiTools.clikboard.copyText(self.link.toPlainText())
         self.close()
 def OpenLink (p,Link):
 	openLink (p,Link).exec()
