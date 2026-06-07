@@ -2,7 +2,7 @@ import guiTools
 import PyQt6.QtWidgets as qt
 import PyQt6.QtGui as qt1
 from PyQt6.QtCore import QUrl
-import guiTools.clikboard
+import pyperclip
 from settings import *
 language.init_translation()
 class openLink (qt.QDialog):
@@ -28,7 +28,7 @@ class openLink (qt.QDialog):
         qt1.QDesktopServices.openUrl(QUrl(self.link.toPlainText()))
         self.close()
     def fcopy(self):
-        guiTools.clikboard.copyText(self.link.toPlainText())
+        pyperclip.copy(self.link.toPlainText())
         self.close()
 def OpenLink (p,Link):
 	openLink (p,Link).exec()
