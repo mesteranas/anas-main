@@ -1,10 +1,9 @@
-import settings,guiTools
+import guiTools
+import settings
 import requests
-import sys
 import subprocess
 import os,shutil
 import PyQt6.QtWidgets as qt
-import PyQt6.QtGui as qt1
 import PyQt6.QtCore as qt2
 class DownloadUpdateObjects(qt2.QObject):
     progress=qt2.pyqtSignal(int)
@@ -23,8 +22,12 @@ class DownloadUpdateThread(qt2.QRunnable):
         self.downloading=value
     def run(self):
         Name=os.path.join(self.path,self.URL.split("/")[-1])
-        if os.path.exists(self.path):
-            shutil.rmtree(self.path)
+        try:
+            if os.path.exists(self.path):
+                shutil.rmtree(self.path)
+        except:
+            self.object.finish.emit("error")
+            return
         os.makedirs(self.path)
         try:
             with requests.get(self.URL,stream=True)as r:
@@ -43,7 +46,7 @@ class DownloadUpdateThread(qt2.QRunnable):
                     for pk in r.iter_content(1024):
                         if not self.downloading:
                             file.close()
-                            return
+                            self.object.finish.emit("cancelled")
                         file.write(pk)
                         recieved+=len(pk)
                         progress=int((recieved/size)*100)
@@ -51,25 +54,25 @@ class DownloadUpdateThread(qt2.QRunnable):
                 self.object.installing.emit("yes")
         except:
             self.object.finish.emit("error")
-        try:
-            subprocess.Popen('"{}" /silent'.format(Name),shell=True)
-        except:
-            self.object.finish.emit("error")
-        sys.exit()
-class DownloadUpdateGUI (qt.QDialog):
-
+        self.object.finish.emit(Name)
+class DownloadUpdateGUI(qt.QDialog):
     def __init__(self,p,URL):
         super().__init__(p)
-        self.setWindowTitle(_("updating"))
+        self.setWindowTitle(_("Updating..."))        
+        self.resize(300,100)
         layout=qt.QVBoxLayout(self)
-        self.state=qt.QLabel(_("downloading update please wait"))
+        self.state=qt.QLabel(_("Downloading update. please wait..."))
+        self.state.setAlignment(qt2.Qt.AlignmentFlag.AlignCenter)
+        self.state.setFocusPolicy(qt2.Qt.FocusPolicy.StrongFocus)
         layout.addWidget(self.state)
         self.downloading=qt.QProgressBar()
+        self.downloading.setFocusPolicy(qt2.Qt.FocusPolicy.StrongFocus)
         self.downloading.setRange(0,100)
-        self.downloading.setAccessibleName(_("download state"))
+        self.downloading.setAccessibleName(_("Downloading statase"))
         self.downloading.setValue(0)
         layout.addWidget(self.downloading)
-        self.cancel=guiTools.QPushButton(_("cancel"))
+        self.cancel=qt.QPushButton(_("Cancel"))
+        self.cancel.setStyleSheet("background-color: #0000AA; color: white;")
         layout.addWidget(self.cancel)
         self.thread=qt2.QThreadPool(self)
         self.run=DownloadUpdateThread(URL)
@@ -80,14 +83,18 @@ class DownloadUpdateGUI (qt.QDialog):
         self.cancel.clicked.connect(self.cancelBTN)
     def Installation(self,choice):
         if choice=="yes":
-            self.state.setText(_("installing"))
+            self.state.setText(_("Installing..."))
             self.downloading.setValue(0)
     def change(self,progress):
         self.downloading.setValue(progress)
     def finish(self,c):
         if c=="error":
-            qt.QMessageBox.information(self,"error","error while downloading")
+            qt.QMessageBox.critical(self,_("Error!"),_("An error detected. Please try again later."))
             self.close()
+        elif c=="cancelled":
+            self.close()
+        else:
+            subprocess.Popen([c, "/SILENT", "/NOCANCEL", "/SUPPRESSMSGBOXES", "/NORESTART"])
+            qt.QApplication.exit()
     def cancelBTN(self):
         self.run.object.download.emit(False)
-        self.close()

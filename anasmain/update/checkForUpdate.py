@@ -35,3 +35,7 @@ class download (qt.QDialog):
         layout.addWidget(whatsn)
         layout.addWidget(self.download)
         layout.addWidget(self.Close)
+    def onDownload(self):
+        self.close()
+        settings.app.exit
+        DownloadUpdateGUI(self,URL).exec()

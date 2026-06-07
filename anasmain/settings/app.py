@@ -3,4 +3,5 @@ appName="anas-main"
 appdirname="anasmain"
 version=1.0
 description=""
-creater="mesteranas"
+creater="Mister Anas"
+exit=True

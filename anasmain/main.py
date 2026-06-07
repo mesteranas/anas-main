@@ -63,6 +63,9 @@ class main (qt.QMainWindow):
         if settings_handler.get("update","autoCheck")=="True":
             update.check(self,message=False)
     def closeEvent(self, event):
+        if not app.exit:
+            self.close()
+            return
         if settings_handler.get("g","exitDialog")=="True":
             m=guiTools.ExitApp(self)
             m.exec()
